@@ -1,0 +1,2 @@
+class UserIncident < ApplicationRecord
+end

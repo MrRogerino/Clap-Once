@@ -1,7 +1,52 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+require 'faker'
+
+location_arr = ["SF", "Boston", "Texas", "Washington"]
+
+10.times do
+	User.create({
+		first_name: Faker::Name.first_name
+		last_name: Faker::Name.last_name
+		phone: Faker::PhoneNumber.cell_phone
+		location: location_arr.sample
+		rapid_id: rand(1000..2000)
+		})
+end
+
+50.times do
+	Contact.create({
+		first_name: Faker::Name.first_name
+		last_name: Faker::Name.last_name
+		phone: Faker::PhoneNumber.cell_phone
+		user_id: rand(1..10)
+		follower_id: rand(1..10)
+		following_id: rand(1..10)
+		})
+end
+
+Incident.create({
+	type: "Fire"
+	description: Faker::ChuckNorris.fact
+	location: location_arr.sample
+	severity: rand(3..5)
+})
+
+Incident.create({
+	type: "Terrorism Activity"
+	description: Faker::ChuckNorris.fact
+	location: location_arr.sample
+	severity: rand(3..5)
+})
+
+Incident.create({
+	type: "Flood"
+	description: Faker::ChuckNorris.fact
+	location: location_arr.sample
+	severity: rand(3..5)
+})
+
+2.times do 
+	User_Incident.create({
+		user_id: rand(1..10)
+		incident_id: rand(1..3)
+	})
+end
