@@ -2,26 +2,41 @@ require 'faker'
 
 location_arr = ["SF", "Boston", "Texas", "Washington"]
 
-10.times do
-	User.create({
-		first_name: Faker::Name.first_name,
-		last_name: Faker::Name.last_name,
-		phone: Faker::PhoneNumber.cell_phone,
-		location: location_arr.sample,
-		rapid_id: rand(1000..2000)
-		})
-end
+User.create({
+	first_name: Faker::Name.first_name,
+	last_name: Faker::Name.last_name,
+	phone: Faker::PhoneNumber.cell_phone,
+	location: location_arr.sample,
+	rapid_id: rand(1000..2000)
+})
 
-50.times do
-	Contact.create({
-		first_name: Faker::Name.first_name,
-		last_name: Faker::Name.last_name,
-		phone: Faker::PhoneNumber.cell_phone,
-		user_id: rand(1..10),
-		follower_id: rand(1..10),
-		following_id: rand(1..10)
-		})
-end
+User.create({
+	first_name: Faker::Name.first_name,
+	last_name: Faker::Name.last_name,
+	phone: Faker::PhoneNumber.cell_phone,
+	location: location_arr.sample,
+	rapid_id: rand(1000..2000)
+})
+
+User.create({
+	first_name: Faker::Name.first_name,
+	last_name: Faker::Name.last_name,
+	phone: Faker::PhoneNumber.cell_phone,
+	location: location_arr.sample,
+	rapid_id: rand(1000..2000)
+})
+
+
+Subscription.create({
+	follower_id: 1,
+	followee_id: 2
+})
+
+Subscription.create({
+	follower_id: 2,
+	followee_id: 3
+})
+
 
 Incident.create({
 	name: "Fire",
