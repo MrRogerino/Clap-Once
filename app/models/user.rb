@@ -1,4 +1,4 @@
 class User < ApplicationRecord
 	has_many :contacts
-	belongs_to :incedents
+	has_many :incedents
 end
