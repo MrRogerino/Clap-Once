@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>SATORI TEST</title>
+    	<script 
+	    	src="https://code.jquery.com/jquery-3.2.1.min.js"
+	  		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	  		crossorigin="anonymous">		
+	  	</script>	
+	</head>
+	<body>
+
+	    <!-- WORKING RAPID IO CODE TO CREATE-->
+	    <script src="https://unpkg.com/rapid-io/dist/rapid.umd.js"></script>
+<!-- 	    <script>
+    		const rapidClient = Rapid.createClient("NDA1OWE0MWo1b3AzOThmLnJhcGlkLmlv")
+
+    			for (i=0; i < gon.user_info.length; i++) {
+	    		rapidClient
+				  .collection('clap-once-users-collection')
+				  .newDocument() // generate the id of a new document automatically
+				  .mutate({ // create a new to-do and assign it to John
+				    type: gon.user_info[i].title,
+				    description: gon.user_info[i].desc 
+				  })
+				  .then(
+				    () => console.log('success'),
+				    err => {
+				      if (err) {
+				        switch (err.type) {
+				          case 'timeout': break // mutation timed out
+				          case 'permission-denied': break // access control related error
+				        }
+				      } 
+				    }
+				  )
+			  }
+		</script> -->
+	    <script>
+	    const rapidClient = Rapid.createClient("NDA1OWE0MWo1b3AzOThmLnJhcGlkLmlv")
+	    const temp = rapidClient.collection('clap-once-users-collection')
+	    console.log(temp)
+    		// const rapidClient = Rapid.createClient("NDA1OWE0MWo1b3AzOThmLnJhcGlkLmlv")
+
+	    	// 	rapidClient
+				  // .collection('clap-once-users-collection')
+				  // .document('')
+				  // .delete()
+				  // .then(
+				  //   () => console.log('success'),
+				  //   err => {
+				  //     if (err) {
+				  //       switch (err.type) {
+				  //         case 'timeout': break // mutation timed out
+				  //         case 'permission-denied': break // access control related error
+				  //       }
+				  //     } 
+				  //   }
+				  // )
+		</script>		
+  	</body>
+</html>

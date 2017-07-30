@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+
+    <title>Satori Quickstart</title>
+
+    <style>
+      p {
+        margin: 10px 0px 5px 0px;
+      }
+      div#output {
+        padding: 6px;
+        width: 800px;
+        height: 500px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-size: small;
+        overflow-y: scroll;
+      }
+      div#output > div {
+        padding: 4px 0;
+      }
+    </style>
+    <script src="https://satori-a.akamaihd.net/satori-rtm-sdk/v1.0.2/sdk.min.js">
+    </script>
+          <script src="https://unpkg.com/rapid-io/dist/rapid.umd.js"></script>
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script> 
+  </head>
+  <body>
+    <p>Output:</p>
+    <div id="output" />
+
+    <script type="text/javascript">
+      var data_hash = {};
+      var user_arr = [];
+      // gon.user_info = [];
+      var counter = 0;
+      var endpoint = "wss://open-data.api.satori.com";
+      var appkey = "b3E0571277da0CC66DB85b9C9E29dd40";
+      // Role and role secret are optional: replace only if you need to authenticate.
+      var role = "YOUR_ROLE";
+      var roleSecret = "YOUR_SECRET";
+      var channelName = "us-disaster-and-emergency-management";
+
+      function showText(text) {
+        var view = document.getElementById("output");
+        var record = "<div>" + text + "</div>";
+        view.innerHTML = record + view.innerHTML;
+      }                                  
+
+      // Check if the role is set to authenticate or not
+      var shouldAuthenticate = "YOUR_ROLE" != role;
+      var authProvider;
+      if (shouldAuthenticate) {
+         authProvider = RTM.roleSecretAuthProvider(role, roleSecret);
+      }
+
+      var client = new RTM(endpoint, appkey, { authProvider: authProvider });
+
+      // Hook up to client connectivity state transitions
+      client.on("enter-connected", function () {
+        showText("Connected to Satori RTM!");
+      });
+      client.on("leave-connected", function () {
+        showText("Disconnected from Satori RTM");
+      });
+      client.on("error", function (error) {
+        var reason;
+        if (error.body) {
+          reason = error.body.error + " - " + error.body.reason;
+        } else {
+          reason = "unknown reason";
+        }
+        showText("RTM client failed: " + reason);
+      });
+
+      client.start();
+
+      // Show information about the client configuration
+      var configInfo = "RTM client config:<br />";
+      configInfo += "&nbsp;&nbsp;endpoint = '" + endpoint + "'<br />";
+      configInfo += "&nbsp;&nbsp;appkey = '" + appkey + "'<br />";
+      configInfo += "&nbsp;&nbsp;authenticate? = " + shouldAuthenticate;
+      if (shouldAuthenticate) {
+        configInfo += " (as " + role + ")";
+      }
+      showText(configInfo);
+
+      // At this point, the client may not yet be connected to Satori RTM.
+      // The SDK internally creates a subscription object and will subscribe
+      // once the client connects.
+      var subscription = client.subscribe(channelName, RTM.SubscriptionMode.SIMPLE);
+      subscription.on("enter-subscribed", function() {
+        // When subscription is established (confirmed by Satori RTM).
+        showText("Subscribed to the channel: " + channelName);
+      });
+
+      subscription.on("rtm/subscribe/error", function(pdu) {
+        // When a subscribe error occurs.
+        showText("Failed to subscribe: " + pdu.body.error + " - " + pdu.body.reason);
+      });
+
+      subscription.on("rtm/subscription/data", function(pdu) {
+        // Messages arrive in an array.
+        pdu.body.messages.forEach(function(msg) {
+          // if counter >= 100 {
+          //   // client.stop();
+          // }
+          // else {
+  
+            showText("*************************************");
+            showText("***********COUNTER " + counter + "******")
+            showText("[TITLE]: " + JSON.stringify(msg.title));
+            showText("[DESCRIPTION]: " + JSON.stringify(msg.DESCRIPTION));          
+            showText(" [UPDATED AT]: " + JSON.stringify(msg.updated));
+            showText(" [SEVERITY]: " + JSON.stringify(msg.severity));
+            showText(" [LATITUDE]: " + JSON.stringify(msg.lat)); 
+            showText(" [LONGITUDE]: " + JSON.stringify(msg.lon));
+            showText("*************************************");
+            data_hash["title"] = JSON.stringify(msg.title);
+            data_hash["desc"] = JSON.stringify(msg.description);
+            user_arr[counter] = data_hash;
+            counter += 1; 
+            gon.user_info = user_arr;
+            // console.log(gon.user_info);
+
+          // }
+          // showText("Earthquake is received...."+ JSON.stringify(msg.properties.place));
+          // var jsonmsg = JSON.stringify(msg.properties.title)
+          // $.ajax({
+          //   type: "POST",
+          //   url: "http://localhost:3000/earthquake-data",
+          //   data: {jsonData: msg.properties.title},
+          // }).always(function(e) {
+          // console.log( "complete:", e );
+          // // debugger
+          // });
+                console.log(gon.user_info);
+        const rapidClient = Rapid.createClient("NDA1OWE0MWo1b3AzOThmLnJhcGlkLmlv")
+
+          for (i=0; i < gon.user_info.length; i++) {
+          rapidClient
+          .collection('clap-once-users-collection')
+          .newDocument() // generate the id of a new document automatically
+          .mutate({ // create a new to-do and assign it to John
+            type: gon.user_info[i].title,
+            description: gon.user_info[i].desc 
+          })
+          .then(
+            () => console.log('success'),
+            err => {
+              if (err) {
+                switch (err.type) {
+                  case 'timeout': break // mutation timed out
+                  case 'permission-denied': break // access control related error
+                }
+              } 
+            }
+          )
+        }
+
+        });
+      });
+
+
+
+    </script>
+
+      <!-- WORKING RAPID IO CODE -->
+
+      <script>
+
+    </script>    
+  </body>
+</html>
+
