@@ -1,12 +1,9 @@
 require 'faker'
 
-location_arr = ["SF", "Boston", "Texas", "Washington"]
-
 User.create({
 	first_name: Faker::Name.first_name,
 	last_name: Faker::Name.last_name,
 	phone: Faker::PhoneNumber.cell_phone,
-	location: location_arr.sample,
 	rapid_id: rand(1000..2000)
 })
 
@@ -14,7 +11,6 @@ User.create({
 	first_name: Faker::Name.first_name,
 	last_name: Faker::Name.last_name,
 	phone: Faker::PhoneNumber.cell_phone,
-	location: location_arr.sample,
 	rapid_id: rand(1000..2000)
 })
 
@@ -22,46 +18,30 @@ User.create({
 	first_name: Faker::Name.first_name,
 	last_name: Faker::Name.last_name,
 	phone: Faker::PhoneNumber.cell_phone,
-	location: location_arr.sample,
 	rapid_id: rand(1000..2000)
 })
 
-
-Subscription.create({
-	follower_id: 1,
-	followee_id: 2
-})
-
-Subscription.create({
-	follower_id: 2,
-	followee_id: 3
-})
-
+5.times do
+	Subscription.find_or_create_by({
+		follower: User.all.sample,
+		followee: User.all.sample
+		})
+end
 
 Incident.create({
 	name: "Fire",
-	description: Faker::ChuckNorris.fact,
-	location: location_arr.sample,
-	severity: rand(3..5)
+	description: "Inferno consumes SF",
+	severity: "severe"
 })
 
 Incident.create({
 	name: "Terrorism Activity",
-	description: Faker::ChuckNorris.fact,
-	location: location_arr.sample,
-	severity: rand(3..5)
+	description: "ISIS activity suspected in New York",
+	severity: "moderate"
 })
 
 Incident.create({
 	name: "Flood",
-	description: Faker::ChuckNorris.fact,
-	location: location_arr.sample,
-	severity: rand(3..5)
+	description: "Levees fail in New Orleans",
+	severity: "severe"
 })
-
-2.times do 
-	UserIncident.create({
-		user_id: rand(1..10),
-		incident_id: rand(1..3)
-	})
-end

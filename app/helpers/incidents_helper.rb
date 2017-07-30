@@ -1,22 +1,20 @@
-class Incident < ApplicationRecord
-	EARTH_RADIUS = 3961
+module IncidentsHelper
+  EARTH_RADIUS = 3961
 
-	def epicenter
-		return [self.latitude, self.longitude]
-	end
-
-	def affected_users
-		affected_users = []
+  def alert_users(epicenter, severity)
+    affected_users = []
     User.find_each do |user|
-      if distance(self.epicenter, user.location) < radius_affected(self.severity)
+      if distance(epicenter, user.location) < radius_affected(severity)
         affected_users << user
       end
     end
 
-		return affected_users
-	end
+    affected_users.each do |user|
+      change_status(user, "pending")
+    end
+    return affected_users
 
-	private
+  end
 
   def radius_affected(severity)
     case severity
@@ -42,9 +40,11 @@ class Incident < ApplicationRecord
     return EARTH_RADIUS * c
   end
 
+  def change_status(user, status)
+    user.update_attribute(:status, status)
+  end
 
   def toRadians(degrees)
     return degrees * Math::PI / 180
   end
-
 end
