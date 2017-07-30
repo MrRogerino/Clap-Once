@@ -13,4 +13,8 @@ class User < ApplicationRecord
 
 	has_many :followers, class_name: "User", through: :followings, source: :followee
 
+	def location
+		return [self.latitude, self.longitude]
+	end
+
 end
