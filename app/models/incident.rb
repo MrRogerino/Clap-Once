@@ -1,3 +1,6 @@
 class Incident < ApplicationRecord
-	has_many :users
+
+	def epicenter
+		return [self.latitude, self.longitude]
+	end
 end
