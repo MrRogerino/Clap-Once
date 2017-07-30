@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 	get '/users/:id/contacts', to: 'users#contacts'
 	get '/rapidio', to: 'users#rapid'
 	get '/incidents/:id/affected', to: 'incidents#affected'
+	get '/incidents/:id/notify', to: 'incidents#notify_users'
 
 	root 'users#satori'
 
