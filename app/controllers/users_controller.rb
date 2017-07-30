@@ -22,7 +22,15 @@ class UsersController < ApplicationController
     end
     render json: {user:@user}.as_json, status: 201
 	end
-	 
+
+	def update_location
+    @user = User.find_by(id: params[:id])
+    if @user
+      @user.update_attribute(:longitude, params[:long])
+      @user.update_attribute(:latitude, params[:lat])
+    end
+    render json: {location:@user.location}.as_json, status: 201
+	end 
 
 	def satori
 		render 'satori'
