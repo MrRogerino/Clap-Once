@@ -1,7 +1,36 @@
 class UsersController < ApplicationController
 	def index
-		
+		@users = User.all
+		render json: {users: @users}.as_json, status: 201
 	end
+
+	def show
+		@user = User.find_by(id: params[:id])
+		render json: {user: @user}.as_json, status: 201
+	end
+
+	def contacts
+		@user = User.find_by(id: params[:id])
+		contacts = @user.contacts
+		render json: {contacts: contacts}.as_json, status: 201
+	end
+
+	def update_status
+		@user = User.find_by(id: params[:id])
+    if @user
+      @user.update_attribute(:status, params[:status])
+    end
+    render json: {user:@user}.as_json, status: 201
+	end
+
+	def update_location
+    @user = User.find_by(id: params[:id])
+    if @user
+      @user.update_attribute(:longitude, params[:long])
+      @user.update_attribute(:latitude, params[:lat])
+    end
+    render json: {location:@user.location}.as_json, status: 201
+	end 
 
 	def satori
 		render 'satori'
