@@ -4,6 +4,11 @@ class UsersController < ApplicationController
 		render json: {users: @users}.as_json, status: 201
 	end
 
+	def show
+		@user = User.find_by(id: params[:id])
+		render json: {user: @user}.as_json, status: 201
+	end 
+
 	def satori
 		render 'satori'
 	end
