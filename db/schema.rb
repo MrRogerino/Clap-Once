@@ -15,8 +15,9 @@ ActiveRecord::Schema.define(version: 20170729205602) do
   create_table "incidents", force: :cascade do |t|
     t.text "name"
     t.text "description"
-    t.text "location"
-    t.integer "severity"
+    t.string "severity"
+    t.decimal "latitude", precision: 8, scale: 5, default: "0.0"
+    t.decimal "longitude", precision: 8, scale: 5, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -39,7 +40,9 @@ ActiveRecord::Schema.define(version: 20170729205602) do
     t.text "first_name"
     t.text "last_name"
     t.text "phone"
-    t.text "location"
+    t.text "status", default: "safe"
+    t.decimal "latitude", precision: 8, scale: 5, default: "0.0"
+    t.decimal "longitude", precision: 8, scale: 5, default: "0.0"
     t.integer "rapid_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
